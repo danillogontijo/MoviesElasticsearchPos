@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Movies Finder</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+
+</head>
+<script type="text/javascript">
+function init() {
+	navigator.geolocation.getCurrentPosition(
+			(p) => {
+				document.getElementById("lat").value = p.coords.latitude 
+				document.getElementById("lng").value = p.coords.longitude
+			}, 
+			(err) => {console.log(" ee ",err)}, 
+			{
+		   		enableHighAccuracy : true,
+		   		timeout : 60000,
+		   		maximumAge : 0
+		    })
+}
+</script>
+<body onload="init();">
+	<div th:replace="fragments/header :: header"/>
+	
+	<!-- /.container -->
+	
+	<div class="container">
+	  <h2>Resultados da consulta</h2>
+	  <table class="table">
+	    <thead>
+	      <tr>
+	      	<th>Id</th>
+	        <th>Filme</th>
+	        <th>Data</th>
+	        <th>Ranking</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+			<tr th:each="filme, status : ${listaFilmes}">
+			  <td th:text="${status.count}"></td>
+			  <td th:text="${filme.title}"></td>
+			  <td th:text="${filme.release_date}"></td>
+			  <td th:text="${filme.vote_average}"></td>
+			</tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	
+	
+	<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>
